@@ -26,7 +26,7 @@ var create = function (cb) {
         mongoGridClient = Grid(db, Mongo);
         cb(mongoGridClient);
 
-        db.close();
+        //db.close();
     });
 };
 

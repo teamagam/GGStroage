@@ -4,8 +4,6 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 var storage_route = require('./routes/storage');
 
-var mongo = require('./database/mongo');
-
 var app = express();
 
 app.use(logger('dev'));

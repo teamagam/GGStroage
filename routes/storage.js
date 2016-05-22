@@ -28,7 +28,7 @@ router.post('/', multer({dest: 'uploads/'}).single('image'), function (req, res,
         });
 
         writeStream.on('close', function (file) {
-            res.send('OK: ' + file._id);
+            res.send(file);
         })
     });
 });
