@@ -2,8 +2,9 @@ var express = require('express');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
-
 var storage_route = require('./routes/storage');
+
+var mongo = require('./database/mongo');
 
 var app = express();
 
@@ -12,7 +13,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-app.use('/', storage_route);
+
+
+app.use('/storage', storage_route);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -1,0 +1,8 @@
+{
+  "local" : {
+    "mongo":{
+      "host" : "localhost",
+      "port" : "27017"
+    }
+  }
+}
