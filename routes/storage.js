@@ -53,8 +53,7 @@ router.get('/:id', function (req, res, next) {
                 var readstream = client.createReadStream(gridByIdQuery);
                 readstream.pipe(res);
             } else {
-                //delegate not found error
-                res.status = 404;
+                //delegate to 'Not Found/404' middleware
                 next();
             }
         })

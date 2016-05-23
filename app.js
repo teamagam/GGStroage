@@ -17,9 +17,8 @@ app.use('/storage', storage_route);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+    res.status = 404;
+    res.send('Not Found');
 });
 
 // error handlers
@@ -36,6 +35,7 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {
+    console.log(err);
     res.status(err.status || 500);
     res.send('error');
 });
