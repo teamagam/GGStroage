@@ -3,6 +3,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
 var storage_route = require('./routes/storage');
+var mongoClient = require('./database/mongo').mongoClient;
 
 var app = express();
 
@@ -11,7 +12,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-
+/**
+ * Middleware for mongo connection to be established middleware
+ */
+app.use(function (req, res, next) {
+    if (!mongoClient.mongoDb) {
+        res.status = 500;
+        res.send('Server is not ready yet');
+    } else {
+        next();
+    }
+});
 
 app.use('/storage', storage_route);
 

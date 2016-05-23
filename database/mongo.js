@@ -13,21 +13,20 @@ var prodConnectionString = process.env.MONGO_CON_STRING;
 var connectionString = prodConnectionString || localConnectionString + '/ggstorage';
 
 var mongoGridClient = null;
+var mongoClient = {};
 
-var create = function (cb) {
-    Mongo.MongoClient.connect(connectionString, function (err, db) {
-        if (err) {
-            console.error('Could not connect to mongo with connection string ' + connectionString);
-            throw err;
+Mongo.MongoClient.connect(connectionString, function (err, db) {
+    if (err) {
+        console.error('Could not connect to mongo with connection string ' + connectionString);
+        throw err;
 
-        }
-        console.log('Successfully connected to mongo with connection string: ' + connectionString);
+    }
+    console.log('Successfully connected to mongo with connection string: ' + connectionString);
 
-        mongoGridClient = Grid(db, Mongo);
-        cb(mongoGridClient);
+    mongoGridClient = Grid(db, Mongo);
 
-        //db.close();
-    });
-};
+    mongoClient.gridClient = mongoGridClient;
+    mongoClient.mongoDb = db;
+});
 
-module.exports.create = create;
+module.exports.mongoClient = mongoClient;
