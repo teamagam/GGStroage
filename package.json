@@ -13,6 +13,7 @@
     "gridfs-stream": "^1.1.1",
     "mongodb": "^2.1.19",
     "morgan": "^1.7.0",
-    "multer": "^1.1.0"
+    "multer": "^1.1.0",
+    "streamifier": "^0.1.1"
   }
 }

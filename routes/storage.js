@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var multer = require('multer');
-var fs = require('fs');
+var streamifier = require('streamifier');
 
-var Grid = require('gridfs-stream');
 var GridFsCreator = require('../database/mongo');
 
 
@@ -13,7 +12,7 @@ var GridFsCreator = require('../database/mongo');
  * This route is used to handle <b>multipart</b> file upload request.
  *
  */
-router.post('/', multer({dest: 'uploads/'}).single('image'), function (req, res, next) {
+router.post('/', multer().single('image'), function (req, res, next) {
     var file = req.file;
 
     GridFsCreator.create(function (client) {
@@ -21,12 +20,15 @@ router.post('/', multer({dest: 'uploads/'}).single('image'), function (req, res,
             filename: file.originalname || "temp"
         });
 
-        fs.createReadStream(file.path).pipe(writeStream);
+        //Async write command to mongo's GridFS
+        streamifier.createReadStream(file.buffer).pipe(writeStream);
 
+        //Write error delegation
         writeStream.on('error', function (err) {
             next(err);
         });
 
+        //Write done handling
         writeStream.on('close', function (file) {
             res.send(file);
         })
