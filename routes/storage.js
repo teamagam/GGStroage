@@ -63,6 +63,14 @@ router.get('/:id', function (req, res, next) {
 router.get('/stats', function (req, res, next) {
     var mongoDb = mongoClient.mongoDb;
 
+    mongoDb.stats(function(err, stats){
+        if(err){
+            next(err);
+        }
+
+        res.send(stats);
+    });
+
 });
 
 module.exports = router;
