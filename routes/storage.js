@@ -13,6 +13,8 @@ var mongoClient = require('../database/mongo').mongoClient;
  *
  */
 router.post('/', multer().single('image'), function (req, res, next) {
+    //Multer populates req's file property with the file data in-memory
+    //You can access the data via file.buffer
     var file = req.file;
 
     var writeStream = mongoClient.gridClient.createWriteStream({
@@ -28,8 +30,8 @@ router.post('/', multer().single('image'), function (req, res, next) {
     });
 
     //Write done handling
-    writeStream.on('close', function (file) {
-        res.send(file);
+    writeStream.on('close', function (resFileMetadata) {
+        res.send(resFileMetadata);
     });
 });
 
